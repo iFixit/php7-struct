@@ -1,4 +1,4 @@
 language: php
 php:
      - 7.1
-script: phpunit StructTest.php
+script: phpunit tests
