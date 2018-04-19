@@ -8,5 +8,10 @@
             "email": "david@ifixit.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
 }
