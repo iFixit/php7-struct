@@ -40,8 +40,7 @@ abstract class Struct {
          return self::$fieldList[$classname];
       }
 
-      // Grab all the parents of the class, and roll up all their FIELDS into
-      // one flat list.
+      // Subclasses derived from Struct inherit all their parents' FIELDS.
       $parentsFieldsLists = array_map(function($parent_class) {
          return $parent_class::FIELDS;
       }, array_keys(class_parents($classname)));
