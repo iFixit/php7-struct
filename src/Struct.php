@@ -20,7 +20,7 @@ abstract class Struct {
       $fields = $this->getCachedFieldList();
 
       if ($diff = array_diff($fields, array_keys($data))) {
-         throw new Exception('Missing fields: ' . implode($diff, ','));
+         throw new MissingField('Missing fields: ' . implode($diff, ','));
       }
 
       foreach ($data as $field => $value) {
@@ -47,7 +47,7 @@ abstract class Struct {
 
    private function validateProperty($field): void {
       if (!in_array($field, $this->getCachedFieldList())) {
-         throw new Exception("Field {$field} not defined on " . get_class($this));
+         throw new InvalidField("Field {$field} not defined on " . get_class($this));
       }
    }
 
@@ -71,10 +71,15 @@ abstract class Struct {
    }
 
    public function __set($field, $value) {
-      throw new Exception('This struct is immutable.');
+      throw new UnsupportedOperation('This struct is immutable.');
    }
 
    public function __unset($field) {
-      throw new Exception("This struct is immutable.");
+      throw new UnsupportedOperation("This struct is immutable.");
    }
 }
+
+class StructException extends Exception {}
+class MissingField extends StructException {}
+class InvalidField extends StructException {}
+class UnsupportedOperation extends StructException {}

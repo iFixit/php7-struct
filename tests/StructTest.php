@@ -20,7 +20,7 @@ class StructTest extends PHPUnit\Framework\TestCase {
    }
 
    public function testConstructorExtraArgument() {
-      $this->expectException(Exception::class);
+      $this->expectException(InvalidField::class);
 
       new MyStruct([
          'a' => 1,
@@ -30,34 +30,34 @@ class StructTest extends PHPUnit\Framework\TestCase {
    }
 
    public function testConstructorMissingArgument() {
-      $this->expectException(Exception::class);
+      $this->expectException(MissingField::class);
 
       new MyStruct(['a' => 1]);
    }
 
    public function testGetInvalidProperty() {
-      $this->expectException(Exception::class);
+      $this->expectException(InvalidField::class);
 
       $struct = new MyStruct(['a' => 1, 'b' => 2]);
       $struct->c;
    }
 
    public function testSettingExistingProperty() {
-      $this->expectException(Exception::class);
+      $this->expectException(UnsupportedOperation::class);
 
       $struct = new MyStruct(['a' => 1, 'b' => 2]);
       $struct->a = 2;
    }
 
    public function testSettingNonexistentProperty() {
-      $this->expectException(Exception::class);
+      $this->expectException(UnsupportedOperation::class);
 
       $struct = new MyStruct(['a' => 1, 'b' => 2]);
       $struct->c = 'c';
    }
 
    public function testUnsettingProperty() {
-      $this->expectException(Exception::class);
+      $this->expectException(UnsupportedOperation::class);
 
       $struct = new MyStruct(['a' => 1, 'b' => 2]);
       unset($struct->a);
