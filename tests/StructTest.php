@@ -81,16 +81,27 @@ class StructTest extends PHPUnit\Framework\TestCase {
       $this->assertFalse($struct1->equals($struct4));
       $this->assertFalse($struct4->equals($struct1));
    }
+
+   /**
+    * Assert that all the FIELDS of parent structs are included in child structs.
+    */
+   public function testInheritedFields() {
+      $struct = new ChildStruct(['a' => 1, 'b' => 2, 'c' => 3]);
+
+      $this->assertSame(1, $struct->a);
+      $this->assertSame(2, $struct->b);
+      $this->assertSame(3, $struct->c);
+   }
 }
 
 class MyStruct extends Struct {
-   protected static function getFieldList(): array {
-      return ['a', 'b'];
-   }
+   protected const FIELDS = ['a', 'b'];
 }
 
 class YourStruct extends Struct {
-   protected static function getFieldList(): array {
-      return ['a', 'b'];
-   }
+   protected const FIELDS = ['a', 'b'];
+}
+
+class ChildStruct extends MyStruct {
+   protected const FIELDS = ['c'];
 }

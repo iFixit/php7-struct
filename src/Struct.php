@@ -5,11 +5,15 @@ declare(strict_types = 1);
  * Immutable object for storing structured data.
  */
 abstract class Struct {
+   // This is where the structure of the object is defined. Should be an array
+   // of field names, like: ['name', 'type', 'url'].
+   protected const FIELDS = [];
+
    private static $fieldList = [];
    private $data = [];
 
    /**
-    * Takes an array of data keyed with the values returned by getFieldList():
+    * Takes an array of data keyed with the values in FIELDS, like:
     *    [
     *       'name' => 'David',
     *       'type' => 'Human',
@@ -29,12 +33,6 @@ abstract class Struct {
       }
    }
 
-   /**
-    * This is where the structure of the object is defined. Should return an
-    * array of field names, like: ['name', 'type', 'url'].
-    */
-   abstract protected static function getFieldList(): array;
-
    protected function getCachedFieldList(): array {
       $classname = get_called_class();
 
@@ -42,7 +40,15 @@ abstract class Struct {
          return self::$fieldList[$classname];
       }
 
-      return self::$fieldList[$classname] = static::getFieldList();
+      // Grab all the parents of the class, and roll up all their FIELDS into
+      // one flat list.
+      $parentsFieldsLists = array_map(function($parent_class) {
+         return $parent_class::FIELDS;
+      }, array_keys(class_parents($classname)));
+
+      $allFields = array_merge(static::FIELDS, ...$parentsFieldsLists);
+
+      return self::$fieldList[$classname] = $allFields;
    }
 
    private function validateProperty($field): void {
