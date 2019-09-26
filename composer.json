@@ -8,7 +8,9 @@
             "email": "david@ifixit.com"
         }
     ],
-    "require": {},
+    "require": {
+        "phpunit/phpunit": "7.3.1"
+    },
     "autoload": {
         "classmap": [
             "src/"
