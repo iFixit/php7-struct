@@ -24,7 +24,7 @@ abstract class Struct {
       $fields = $this->getCachedFieldList();
 
       if ($diff = array_diff($fields, array_keys($data))) {
-         throw new MissingField('Missing fields: ' . implode($diff, ','));
+         throw new MissingField('Missing fields: ' . implode(',', $diff));
       }
 
       foreach ($data as $field => $value) {
