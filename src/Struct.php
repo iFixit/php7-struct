@@ -75,6 +75,10 @@ abstract class Struct {
       return $this->data[$field];
    }
 
+   public function amend(array $fields) {
+      return new static($fields + $this->data);
+   }
+
    public function __set($field, $value) {
       throw new UnsupportedOperation('This struct is immutable.');
    }
