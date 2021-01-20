@@ -1,6 +1,6 @@
 {
     "name": "ifixit/php7-struct",
-    "description": "PHP 7 object wrapper that provides a safer way to pass around structured data",
+    "description": "PHP object wrapper that provides a safer way to pass around structured data",
     "license": "MIT",
     "authors": [
         {
