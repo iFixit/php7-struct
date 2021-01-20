@@ -12,5 +12,5 @@ before_script:
   - ./cc-test-reporter before-build
 install: composer install
 script:
-  - vendor/bin/phpunit tests
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+  - XDEBUG_MODE=coverage vendor/bin/phpunit tests
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --coverage-input-type=clover --exit-code $TRAVIS_TEST_RESULT; fi
