@@ -19,6 +19,35 @@ class StructTest extends PHPUnit\Framework\TestCase {
       $this->assertSame('string', $struct->b);
    }
 
+   public function testMoreTypes() {
+      $int = 1;
+      $double = 1.2;
+      $string = 'string';
+      $array = [1, 2, 3];
+      $object = new stdClass();
+      $struct = new MyStruct(['a' => 1, 'b' => 2]);
+
+      $fancyStruct = new class([
+         'int' => $int,
+         'double' => $double,
+         'string' => $string,
+         'array' => $array,
+         'object' => $object,
+         'struct' => $struct,
+      ]) extends Struct {
+         protected const FIELDS = ['int', 'double', 'string', 'array', 'object', 'struct'];
+      };
+
+      $this->assertSame($int, $fancyStruct->int);
+      $this->assertSame($double, $fancyStruct->double);
+      $this->assertSame($string, $fancyStruct->string);
+      $this->assertSame($array, $fancyStruct->array);
+      $this->assertSame($object, $fancyStruct->object);
+      $this->assertSame($struct, $fancyStruct->struct);
+      $this->assertSame($struct->a, $fancyStruct->struct->a);
+      $this->assertSame($struct->b, $fancyStruct->struct->b);
+   }
+
    public function testConstructorExtraArgument() {
       $this->expectException(InvalidField::class);
 
