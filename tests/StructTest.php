@@ -121,18 +121,6 @@ class StructTest extends PHPUnit\Framework\TestCase {
       $this->assertSame(2, $struct->b);
       $this->assertSame(3, $struct->c);
    }
-
-   /**
-    * Assert that all the FIELDS of parent structs are included in child structs.
-    */
-   public function testAmend() {
-      $struct = new MyStruct(['a' => 1, 'b' => 2]);
-      $amended = $struct->amend(['a' => 4]);
-
-      $this->assertNotSame($amended, $struct);
-      $this->assertSame(4, $amended->a);
-      $this->assertSame(2, $amended->b);
-   }
 }
 
 class MyStruct extends Struct {

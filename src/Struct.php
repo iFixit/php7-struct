@@ -28,7 +28,7 @@ abstract class Struct {
     *
     * @param non-empty-array<string, mixed> $data
     */
-   final public function __construct(array $data) {
+   public function __construct(array $data) {
       $fields = $this->getCachedFieldList();
 
       if ($diff = array_diff($fields, array_keys($data))) {
@@ -84,13 +84,6 @@ abstract class Struct {
    public function __get(string $field) {
       $this->validateProperty($field);
       return $this->data[$field];
-   }
-
-   /**
-    * @return static
-    */
-   public function amend(array $fields) {
-      return new static($fields + $this->data);
    }
 
    /**
