@@ -5,12 +5,18 @@ declare(strict_types = 1);
  * Immutable object for storing structured data.
  */
 abstract class Struct {
-   // This is where the structure of the object is defined. Should be an array
-   // of field names, like: ['name', 'type', 'url'].
+   /**
+    * This is where the structure of the object is defined. Should be an array
+    * of field names, like: ['name', 'type', 'url'].
+    *
+    * @var list<string>
+    */
    protected const FIELDS = [];
 
+   /** @var array<string, array> */
    private static $fieldList = [];
-   private $data = [];
+   /** @var array<string, mixed> */
+   private array $data = [];
 
    /**
     * Takes an array of data keyed with the values in FIELDS, like:
@@ -19,6 +25,8 @@ abstract class Struct {
     *       'type' => 'Human',
     *       'url' => 'davidrans.com',
     *    ]
+    *
+    * @param non-empty-array<string, mixed> $data
     */
    public function __construct(array $data) {
       $fields = $this->getCachedFieldList();
@@ -41,7 +49,7 @@ abstract class Struct {
       }
 
       // Subclasses derived from Struct inherit all their parents' FIELDS.
-      $parentsFieldsLists = array_map(function($parent_class) {
+      $parentsFieldsLists = array_map(function($parent_class): array {
          return $parent_class::FIELDS;
       }, array_keys(class_parents($classname)));
 
@@ -50,7 +58,7 @@ abstract class Struct {
       return self::$fieldList[$classname] = $allFields;
    }
 
-   private function validateProperty($field): void {
+   private function validateProperty(string $field): void {
       if (!in_array($field, $this->getCachedFieldList())) {
          throw new InvalidField("Field {$field} not defined on " . get_class($this));
       }
@@ -70,20 +78,22 @@ abstract class Struct {
       return true;
    }
 
-   public function __get($field) {
+   /**
+    * @return mixed
+    */
+   public function __get(string $field) {
       $this->validateProperty($field);
       return $this->data[$field];
    }
 
-   public function amend(array $fields) {
-      return new static($fields + $this->data);
-   }
-
-   public function __set($field, $value) {
+   /**
+    * @param mixed $value
+    */
+   public function __set(string $field, $value) {
       throw new UnsupportedOperation('This struct is immutable.');
    }
 
-   public function __unset($field) {
+   public function __unset(string $field) {
       throw new UnsupportedOperation("This struct is immutable.");
    }
 }
