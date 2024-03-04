@@ -1,3 +1,5 @@
+# Deprecated in favor of PHP 8.2 readonly classes: https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.readonly
+
 # php7-struct
 
 [![Build Status](https://travis-ci.com/iFixit/php7-struct.svg?branch=master)](https://travis-ci.com/iFixit/php7-struct) <a href="https://codeclimate.com/github/iFixit/php7-struct/test_coverage"><img src="https://api.codeclimate.com/v1/badges/61e692b4f95e4e35cb6d/test_coverage" /></a> <a href="https://codeclimate.com/github/iFixit/php7-struct/maintainability"><img src="https://api.codeclimate.com/v1/badges/61e692b4f95e4e35cb6d/maintainability" /></a>
